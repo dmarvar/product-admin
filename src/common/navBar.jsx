@@ -8,7 +8,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTachometerAlt,
   faShoppingCart,
-  faUserAlt
+  faUserAlt,
+  faBars
 } from "@fortawesome/free-solid-svg-icons";
 
 const Nav = styled.nav`
@@ -18,6 +19,19 @@ const Nav = styled.nav`
   background-color: ${p => p.theme.bgColorLight};
   h1 {
     color: ${p => p.theme.cOrange};
+  }
+  & > div:nth-child(2) {
+    display: none;
+    color: white;
+    font-size: 25px;
+  }
+  @media screen and (max-width: 720px) {
+    & > div:first-child {
+      display: none;
+    }
+    & > div:nth-child(2) {
+      display: block;
+    }
   }
 `;
 const NavItems = styled.div`
@@ -40,6 +54,9 @@ const NavItems = styled.div`
   }
   @media screen and (max-width: 720px) {
     display: none;
+    position: absolute;
+    background: ${p => p.theme.bgColorDark};
+    top: 100px;
   }
 `;
 
@@ -54,6 +71,9 @@ export default function NavBar() {
     <Nav>
       <div>
         <h1>ADMIN Panel</h1>
+      </div>
+      <div id="burger">
+        <FontAwesomeIcon icon={faBars} />
       </div>
       <NavItems>
         <Link to="/">
