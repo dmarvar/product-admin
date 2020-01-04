@@ -1,5 +1,5 @@
 export default {
-  isAuthenticated: true,
+  isAuthenticated: false,
   authenticate(cb) {
     this.isAuthenticated = true;
     setTimeout(cb, 500); // Fake Async

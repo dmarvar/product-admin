@@ -14,6 +14,12 @@ const Container = styled.section`
   & > div {
     width: 48%;
   }
+  @media screen and (max-width: 720px) {
+    & > div {
+      width: 100%;
+      padding: 5px;
+    }
+  }
 `;
 
 const Form = styled.form``;

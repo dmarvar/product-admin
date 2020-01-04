@@ -21,6 +21,12 @@ const Container = styled.section`
   & > div:last-child {
     width: 25%;
   }
+  @media screen and (max-width: 720px) {
+    & > div {
+      width: 100% !important;
+      padding: 5px;
+    }
+  }
 `;
 
 const Wrapper = styled.div`

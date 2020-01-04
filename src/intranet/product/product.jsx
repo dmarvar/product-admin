@@ -8,6 +8,9 @@ import { updateProducts } from "../../services/actions";
 const Form = styled.form`
   display: flex;
   justify-content: center;
+  @media screen and (max-width: 720px) {
+    flex-direction: column-reverse;
+  }
 `;
 const Section = styled.section`
   flex: 1;

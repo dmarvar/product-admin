@@ -38,6 +38,9 @@ const NavItems = styled.div`
       text-decoration: none;
     }
   }
+  @media screen and (max-width: 720px) {
+    display: none;
+  }
 `;
 
 export default function NavBar() {

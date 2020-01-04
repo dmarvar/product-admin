@@ -20,6 +20,11 @@ const Content = styled.section`
   & > div:last-child {
     width: 100%;
   }
+  @media screen and (max-width: 720px) {
+    & > div {
+      width: 100%;
+    }
+  }
 `;
 
 function main({ storeData }) {
