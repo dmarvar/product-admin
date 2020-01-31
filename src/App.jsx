@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useContext } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import {
   BrowserRouter as Router,
@@ -6,16 +6,17 @@ import {
   Route,
   Redirect
 } from "react-router-dom";
-import http from "./services/http";
 import Theme from "./utils/theme";
 import Login from "./login";
 import Intranet from "./intranet";
-import auth from "./services/auth";
+import { AuthProvider, AuthContext } from "./services/auth";
 // REDUX
 import { connect } from "react-redux";
 import { setInitialData } from "./services/actions";
 //STYLES
 import "./App.css";
+import axios from "axios";
+axios.defaults.baseURL = "https://wecommerceapi.azurewebsites.net";
 
 const Wrapper = styled.main`
   min-height: 100vh;
@@ -23,21 +24,21 @@ const Wrapper = styled.main`
   overflow: hidden;
 `;
 
-const PrivateRoute = ({ children, ...rest }) => (
-  <Route
-    {...rest}
-    render={() => (auth.isAuthenticated ? children : <Redirect to="/login" />)}
-  />
-);
+const PrivateRoute = ({ children, ...rest }) => {
+  const { currentUser } = useContext(AuthContext);
+  console.log(currentUser);
+  return (
+    <Route
+      {...rest}
+      render={() => (!!currentUser ? children : <Redirect to="/login" />)}
+    />
+  );
+};
 
-class App extends Component {
-  async componentDidMount() {
-    const { data } = await http.get("/project-data.json");
-    this.props.onLoadData(data);
-  }
-  render() {
-    return (
-      <ThemeProvider theme={Theme}>
+const App = () => {
+  return (
+    <ThemeProvider theme={Theme}>
+      <AuthProvider>
         <Router>
           <Wrapper>
             <Switch>
@@ -50,10 +51,10 @@ class App extends Component {
             </Switch>
           </Wrapper>
         </Router>
-      </ThemeProvider>
-    );
-  }
-}
+      </AuthProvider>
+    </ThemeProvider>
+  );
+};
 const mapStateToProps = (state, props) => {
   return {};
 };

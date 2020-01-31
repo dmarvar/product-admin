@@ -4,6 +4,8 @@
 export const SET_INITIAL_DATA = "SET_INITIAL_DATA";
 export const UPDATE_PRODUCTS = "UPDATE_PRODUCTS";
 export const UPDATE_ACCOUNTS = "UPDATE_ACCOUNTS";
+export const SET_PRODUCT_LIST = "SET_PRODUCT_LIST";
+export const SET_ORDERS_LIST = "SET_ORDERS_LIST";
 // export const REMOVE_PRODUCT = "REMOVE_PRODUCT";
 
 // CREADORE DE ACCIONES
@@ -19,6 +21,19 @@ export function updateAccounts(payload) {
 export function setInitialData(payload) {
   return {
     type: SET_INITIAL_DATA,
+    payload
+  };
+}
+
+export function setProductList(payload) {
+  return {
+    type: SET_PRODUCT_LIST,
+    payload
+  };
+}
+export function setOrdersList(payload) {
+  return {
+    type: SET_ORDERS_LIST,
     payload
   };
 }

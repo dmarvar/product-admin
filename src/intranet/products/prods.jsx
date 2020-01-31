@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import Box from "../../common/box";
-import Table from "../../common/table";
 import { connect } from "react-redux";
 import Button from "../../common/button";
+import FilterBar from "../../common/filtersBar";
 import { updateProducts } from "../../services/actions";
-import { ProductsTable, CategoriesTable } from "../../utils/tablesHeaders";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faTrashAlt, faCheck } from "@fortawesome/free-solid-svg-icons";
 
 const Container = styled.section`
   display: flex;
@@ -18,10 +17,10 @@ const Container = styled.section`
     text-align: left;
   }
   & > div:first-child {
-    width: 83%;
+    width: 72%;
   }
   & > div:last-child {
-    width: 15%;
+    width: 25%;
   }
   @media screen and (max-width: 720px) {
     & > div {
@@ -48,6 +47,30 @@ const Selector = styled.div`
   cursor: pointer;
 `;
 
+const Table = styled.table`
+  font-size: 13px;
+  text-align: left;
+  width: 100%;
+  thead {
+    background-color: ${p => p.theme.bgColor};
+  }
+  tbody tr:hover {
+    border-bottom: 1px solid ${p => p.theme.cOrange};
+    cursor: default;
+  }
+  tr {
+    border: 1px solid ${p => p.theme.bgColorDark};
+  }
+  th {
+    padding: 10px;
+    color: white;
+  }
+  td {
+    background-color: ${p => p.theme.bgColorLight};
+    padding: 10px;
+    color: white;
+  }
+`;
 const Modal = styled.div`
   position: fixed;
   top: 0;
@@ -85,11 +108,6 @@ const Modal = styled.div`
       color: ${p => p.theme.cWhite};
     }
   }
-`;
-
-const RigthSection = styled.section`
-  background: ${p => p.theme.bgColorLight};
-  border-bottom: 1px solid white;
 `;
 
 class Products extends Component {
@@ -150,30 +168,90 @@ class Products extends Component {
   render() {
     let { categories, products } = this.props;
     let { modal } = this.state;
-    console.log(products);
-    console.log(categories);
-    let categorias = [
-      { id: 0, name: "Lacteos" },
-      { id: 1, name: "algo más" }
-    ];
-    console.log(categorias);
     return (
       <div>
         <h2>Productos</h2>
+
         <Container>
-          <Box>
-            <Table columns={ProductsTable} data={products}></Table>
+          <Box title="All products">
+            <FilterBar />
+            <Wrapper>
+              <Table>
+                <thead>
+                  <tr>
+                    <th></th>
+                    {products[0] &&
+                      Object.keys(products[0]).map((i, k) => {
+                        if (i === "img") return null;
+                        return <th key={i + k}>{i.toUpperCase()}</th>;
+                      })}
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {products.map((o, k) => {
+                    const { img, ...y } = o;
+                    return (
+                      <tr key={k}>
+                        <td>
+                          <Selector onClick={this.selectProduct.bind(this, k)}>
+                            {this.state.selectedProducts.includes(k) && (
+                              <FontAwesomeIcon icon={faCheck} />
+                            )}
+                          </Selector>
+                        </td>
+                        {Object.values(y).map((l, k1) => {
+                          return (
+                            <td
+                              key={l + k1}
+                              onClick={this.changeRoute.bind(this, k)}
+                            >
+                              {l}
+                            </td>
+                          );
+                        })}
+                        <td>
+                          <Selector
+                            onClick={this.deleteItem.bind(this, k, "products")}
+                          >
+                            <FontAwesomeIcon icon={faTrashAlt} />
+                          </Selector>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </Table>
+            </Wrapper>
+            <Button
+              text="Add new product"
+              action={this.changeRoute.bind(this, "new")}
+            />
+            <Button text="Delete selected products" action={this.deleteItems} />
           </Box>
-          <Box>
-            <RigthSection>
-              <Table
-                columns={CategoriesTable}
-                data={categorias}
-                filter={true}
-              ></Table>
-              hola
-              <Button text="Add Category" action={this.toggleModal} />
-            </RigthSection>
+          <Box title="Categories">
+            <Wrapper>
+              <Table>
+                <thead>
+                  <tr></tr>
+                </thead>
+                <tbody>
+                  {categories.map((o, k) => (
+                    <tr key={o + k}>
+                      <td>{o}</td>
+                      <td>
+                        <Selector
+                          onClick={this.deleteItem.bind(this, k, "categories")}
+                        >
+                          <FontAwesomeIcon icon={faTrashAlt} />
+                        </Selector>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </Wrapper>
+            <Button text="Add Category" action={this.toggleModal} />
           </Box>
         </Container>
         <Modal visibility={modal ? "" : "hidden"}>
@@ -185,7 +263,7 @@ class Products extends Component {
               value={this.state.category}
               onChange={this.changeCategory}
             />
-            <Button text="Agregar" action={this.addCategory} />
+            <Button text="Add Category" action={this.addCategory} />
           </section>
         </Modal>
       </div>

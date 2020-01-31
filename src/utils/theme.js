@@ -2,6 +2,7 @@ export default {
   bgColor: "#4e657a",
   bgColorDark: "#435c70",
   bgColorLight: "#567086",
+  bgColorDarkTrans: "rgba(67, 92, 112, 0.9)",
   cWhite: "white",
   cOrange: "#f5a623",
   cOrangeDark: "#e67e00",

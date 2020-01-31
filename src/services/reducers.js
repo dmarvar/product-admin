@@ -1,4 +1,10 @@
-import { SET_INITIAL_DATA, UPDATE_PRODUCTS, UPDATE_ACCOUNTS } from "./actions";
+import {
+  SET_INITIAL_DATA,
+  // UPDATE_PRODUCTS,
+  // UPDATE_ACCOUNTS,
+  SET_PRODUCT_LIST,
+  SET_ORDERS_LIST
+} from "./actions";
 
 const InitialState = {
   accountsPage: {},
@@ -12,17 +18,20 @@ const InitialState = {
   productsPage: {
     categories: [],
     products: []
+  },
+  ordersPage: {
+    orders: []
   }
 };
 
 function initState(state = InitialState, action) {
   switch (action.type) {
-    case SET_INITIAL_DATA:
-      return Object.assign({}, state, action.payload);
-    case UPDATE_PRODUCTS:
-      return { ...state, productsPage: action.payload };
-    case UPDATE_ACCOUNTS:
-      return { ...state, accountsPage: action.payload };
+    case SET_PRODUCT_LIST:
+      const productsPage = { ...state.productsPage, products: action.payload };
+      return { ...state, productsPage };
+    case SET_ORDERS_LIST:
+      const ordersPage = { ...state.ordersPage, orders: action.payload };
+      return { ...state, ordersPage };
     default:
       return state;
   }

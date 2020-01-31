@@ -1,11 +1,20 @@
-export default {
-  isAuthenticated: false,
-  authenticate(cb) {
-    this.isAuthenticated = true;
-    setTimeout(cb, 500); // Fake Async
-  },
-  signout(cb) {
-    this.isAuthenticated = false;
-    setTimeout(cb, 500); // Fake Async
-  }
+import React, { useEffect, useState } from "react";
+import app from "../utils/firebase";
+
+export const AuthContext = React.createContext();
+
+export const AuthProvider = ({ children }) => {
+  const [currentUser, setCurrentUser] = useState(null);
+  useEffect(() => {
+    app.auth().onAuthStateChanged(setCurrentUser);
+  }, []);
+  return (
+    <AuthContext.Provider value={{ currentUser }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export const Signout = () => {
+  app.auth().signOut();
 };

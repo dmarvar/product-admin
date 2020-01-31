@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../common/button";
 import { useHistory } from "react-router-dom";
-import auth from "../services/auth";
+import { AuthContext, Signout } from "../services/auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTachometerAlt,
   faShoppingCart,
   faUserAlt,
-  faBars
+  faBars,
+  faMotorcycle,
+  faEllipsisH
 } from "@fortawesome/free-solid-svg-icons";
 
 const Nav = styled.nav`
@@ -61,16 +63,15 @@ const NavItems = styled.div`
 `;
 
 export default function NavBar() {
-  let history = useHistory();
-  let logout = () => {
-    auth.signout(() => {
-      history.push("/login");
-    });
-  };
+  const { currentUser } = useContext(AuthContext);
+  console.log(currentUser);
   return (
     <Nav>
       <div>
-        <h1>ADMIN Panel</h1>
+        <h1>
+          <FontAwesomeIcon icon={faEllipsisH} />
+          WECOME
+        </h1>
       </div>
       <div id="burger">
         <FontAwesomeIcon icon={faBars} />
@@ -86,16 +87,22 @@ export default function NavBar() {
           <span>
             <FontAwesomeIcon icon={faShoppingCart} />
           </span>
-          Products
+          Productos
+        </Link>
+        <Link to="/orders">
+          <span>
+            <FontAwesomeIcon icon={faMotorcycle} />
+          </span>
+          Ordenes
         </Link>
         <Link to="/accounts">
           <span>
             <FontAwesomeIcon icon={faUserAlt} />
           </span>
-          Accounts
+          Cuentas
         </Link>
       </NavItems>
-      <Button text="Logout" action={logout} />
+      <Button text="Salir" action={Signout} />
     </Nav>
   );
 }
