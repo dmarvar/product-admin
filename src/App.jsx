@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import Theme from "./utils/theme";
 import Login from "./login";
+import Loader from "./login/loader";
 import Intranet from "./intranet";
 import { AuthProvider, AuthContext } from "./services/auth";
 // REDUX
@@ -16,6 +17,7 @@ import { setInitialData } from "./services/actions";
 //STYLES
 import "./App.css";
 import axios from "axios";
+// import { id } from "postcss-selector-parser";
 axios.defaults.baseURL = "https://wecommerceapi.azurewebsites.net";
 
 const Wrapper = styled.main`
@@ -24,15 +26,25 @@ const Wrapper = styled.main`
   overflow: hidden;
 `;
 
+// const Loader = () => {
+//   return <div>Loading</div>;
+// };
+
 const PrivateRoute = ({ children, ...rest }) => {
-  const { currentUser } = useContext(AuthContext);
-  console.log(currentUser);
-  return (
-    <Route
-      {...rest}
-      render={() => (!!currentUser ? children : <Redirect to="/login" />)}
-    />
-  );
+  const { currentUser, loadingUser } = useContext(AuthContext);
+  const routing = () => {
+    if (currentUser) {
+      return children;
+    }
+    if (!currentUser) {
+      if (loadingUser) {
+        return <Loader></Loader>;
+      } else {
+        return <Redirect to="/login" />;
+      }
+    }
+  };
+  return <Route {...rest} render={routing} />;
 };
 
 const App = () => {

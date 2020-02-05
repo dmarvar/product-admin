@@ -8,7 +8,7 @@ import Accounts from "./accounts";
 import Product from "./product";
 import Orders from "./orders";
 import Order from "./order";
-import http from "../services/http";
+import { useHttp } from "../hooks/useHttp";
 // REDUX
 import { connect } from "react-redux";
 import { setProductList } from "../services/actions";
@@ -24,22 +24,8 @@ const Wrapper = styled.main`
 `;
 
 const Intranet = ({ saveProducts, saveOrders }) => {
-  useEffect(() => {
-    async function queries() {
-      const products = await http.post(
-        "https://wecommerceapiaz.azurewebsites.net/api/GetProducts?ownerid=ALGOMERKAR"
-      );
-      // https://wecommerceapiaz.azurewebsites.net/api/GetOrders?id=1
-      // const orders = await http.post(
-      //   "api/GetProducts?code=sfd4BXw7xnTfgkdg1eVwoK3tVobfuVYDQpxJQaNchgDuLfjF4QSAvw==&ownerid=ALGOMERKAR"
-      // );
-      console.log(products);
-      saveProducts(products);
-      // saveOrders(orders);
-    }
-    // Execute the created function directly
-    queries();
-  });
+  const [products] = useHttp("/GetProducts?ownerid=ALGOMERKAR");
+  saveProducts(products);
   return (
     <div>
       <Nav />
@@ -60,9 +46,6 @@ const Intranet = ({ saveProducts, saveOrders }) => {
     </div>
   );
 };
-const mapStateToProps = (state, props) => {
-  return {};
-};
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -75,4 +58,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Intranet);
+export default connect(null, mapDispatchToProps)(Intranet);

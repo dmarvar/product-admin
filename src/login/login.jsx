@@ -45,7 +45,7 @@ const Login = ({ history }) => {
     [history]
   );
   const { currentUser } = useContext(AuthContext);
-  if (currentUser) return <Redirect to="/products" />;
+  if (currentUser) return <Redirect to="/" />;
   return (
     <Wrapper>
       <Card>

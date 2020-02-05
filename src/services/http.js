@@ -4,9 +4,11 @@ import { apiEndPoint } from "../utils/config.json";
 // "apiEndPoint": "https://reactmusicplayer-ab9e4.firebaseio.com",
 // "apiEndPoint": "https://wecommerceapi.azurewebsites.net",
 
-// axios.defaults.baseURL = apiEndPoint;
+let axiosInstance = axios.create({
+  baseURL: apiEndPoint
+});
 
-axios.interceptors.response.use(
+axiosInstance.interceptors.response.use(
   res => res.data,
   error => {
     console.log(error.res);
@@ -16,15 +18,15 @@ axios.interceptors.response.use(
       error.response.status < 500;
     if (!expectedError) {
       console.log("Logging the error", error);
-      alert("Un error inesperado ocurrio");
+      // alert("Un error inesperado ocurrio");
     }
     return Promise.reject(error);
   }
 );
 
 export default {
-  get: axios.get,
-  post: axios.post,
-  put: axios.put,
-  delete: axios.delete
+  get: axiosInstance.get,
+  post: axiosInstance.post,
+  put: axiosInstance.put,
+  delete: axiosInstance.delete
 };

@@ -1,5 +1,5 @@
 {
-  "apiEndPoint": "https://wecommerceapiaz.azurewebsites.net/",
+  "apiEndPoint": "https://wecommerceapiaz.azurewebsites.net/api",
   "firebase": {
     "apiKey": "AIzaSyBxAuFYZeWFVPxu2oTI6qoMFvt0_N5wIqI",
     "authDomain": "merkar-5e730.firebaseapp.com",
