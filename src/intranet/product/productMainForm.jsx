@@ -1,8 +1,8 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { InputText, Selector } from "../../common/form";
-import { useHttp } from "../../hooks/useHttp";
+import { InputText, Selector, Button } from "../../common/form";
+import { useGetHttp } from "../../hooks/useHttp";
 
 // {
 //   id: 1
@@ -32,13 +32,12 @@ const initialValuesMain = {
 };
 
 const ProductMainForm = ({ submit, initialValues = initialValuesMain }) => {
-  console.log("Initial values are those:", initialValues);
   const categoriesUrl = "/GetCategoryProducts?ownerId=algomerkar";
-  const [categories] = useHttp(categoriesUrl);
+  const [categories] = useGetHttp(categoriesUrl);
   const formik = useFormik({
     initialValues,
     onSubmit: values => {
-      // submit(values);
+      submit(values);
       alert(JSON.stringify(values));
     },
     enableReinitialize: true,
@@ -59,6 +58,7 @@ const ProductMainForm = ({ submit, initialValues = initialValuesMain }) => {
     touched,
     handleBlur
   } = formik;
+  console.log(initialValues);
   return (
     <form onSubmit={handleSubmit}>
       <InputText
@@ -128,7 +128,7 @@ const ProductMainForm = ({ submit, initialValues = initialValuesMain }) => {
         touched={touched}
       />
 
-      <button type="submit">Enviar</button>
+      <Button type="submit">GUARDAR</Button>
     </form>
   );
 };

@@ -15,10 +15,10 @@ const Upload = () => {
     // console.log();
     // console.log(file);
     const info = [{ Campo1: "Hello" }];
-    const res = await axios.post(
-      "https://wecommerceapiaz.azurewebsites.net/api/UploadProducts",
-      info
-    );
+    // const res = await axios.post(
+    //   "https://wecommerceapiaz.azurewebsites.net/api/UploadProducts",
+    //   info
+    // );
     // console.log(res);
   };
   return (

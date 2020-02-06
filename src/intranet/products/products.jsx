@@ -11,7 +11,7 @@ import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import Modal from "../../common/modal";
 import { useModal } from "../../hooks/useModal";
 import { Container, RigthSection } from "./styles";
-import { useHttp } from "../../hooks/useHttp";
+import { useGetHttp } from "../../hooks/useHttp";
 
 import Uploader from "./uploadFile";
 
@@ -31,9 +31,13 @@ const resToTable = arr => {
   });
 };
 
-const Products = ({ history, products }) => {
-  const [categories] = useHttp("/GetCategoryProducts?ownerId=algomerkar");
+const Products = ({ history }) => {
+  const [categories, catLoad] = useGetHttp(
+    "/GetCategoryProducts?ownerId=algomerkar"
+  );
+  const [products, prodLoad] = useGetHttp("/GetProducts?ownerid=ALGOMERKAR");
   // const [modalStatus, setModalStatus, toogleModal] = useModal();
+  // const memoizedProducts = useMemo(() => resToTable(products), [products]);
   const memoizedProducts = useMemo(() => resToTable(products), [products]);
   const redirect = ({ id }) => {
     history.push(`/products/${id}`);
@@ -47,6 +51,7 @@ const Products = ({ history, products }) => {
             columns={ProductsTable}
             data={memoizedProducts}
             redirect={redirect}
+            loading={prodLoad}
           ></TableWindow>
         </Box>
         <Box>
@@ -55,6 +60,7 @@ const Products = ({ history, products }) => {
               columns={CategoriesTable}
               data={categories}
               filter={true}
+              loading={catLoad}
             ></Table>
             {/* <button onClick={toogleModal}>Agregar</button> */}
             {/* <Button text="Add Category" action={this.toggleModal} /> */}

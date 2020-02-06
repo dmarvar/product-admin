@@ -36,3 +36,17 @@ export const InputTextStyles = styled.section`
     font-weight: 700;
   }
 `;
+
+export const ButtonStyles = styled.button`
+  color: ${p => p.theme.cWhite};
+  padding: 10px 15px;
+  border-color: ${p => p.theme.cOrange};
+  background-color: ${p => p.theme.cOrange};
+  margin: 20px 10px 30px;
+  &:hover {
+    background-color: ${p => p.theme.cOrangeDark};
+    border-color: ${p => p.theme.cOrangeDark};
+    color: white;
+    text-decoration: none;
+  }
+`;

@@ -64,7 +64,6 @@ const NavItems = styled.div`
 
 export default function NavBar() {
   const { currentUser } = useContext(AuthContext);
-  console.log(currentUser);
   return (
     <Nav>
       <div>

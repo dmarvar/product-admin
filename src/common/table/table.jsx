@@ -3,13 +3,14 @@ import { TableS, Busqueda, BusquedaWrapper } from "./tableStyles";
 import {
   useTable,
   useSortBy,
-  useGlobalFilter,
-  useBlockLayout,
-  useCallBack
+  useGlobalFilter
+  // useBlockLayout,
+  // useCallBack
 } from "react-table";
-import { FixedSizeList } from "react-window";
+// import { FixedSizeList } from "react-window";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSortDown, faSortUp } from "@fortawesome/free-solid-svg-icons";
+import Loader from "../../login/loader";
 
 // Define a default UI for filtering
 function GlobalFilter({
@@ -57,7 +58,13 @@ const diplayFilter = () => {
   return;
 };
 
-function Table({ columns = [], data = [], filter = null, redirect = null }) {
+function Table({
+  columns = [],
+  data = [],
+  filter = null,
+  redirect = null,
+  loading = false
+}) {
   const {
     getTableProps,
     getTableBodyProps,
@@ -119,21 +126,27 @@ function Table({ columns = [], data = [], filter = null, redirect = null }) {
           </tr>
         ))}
       </thead>
-      <tbody {...getTableBodyProps()}>
-        {rows.map((row, i) => {
-          prepareRow(row);
-          return (
-            <tr
-              {...row.getRowProps()}
-              onClick={() => (redirect ? redirect(row.original) : null)}
-            >
-              {row.cells.map(cell => {
-                return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
-              })}
-            </tr>
-          );
-        })}
-      </tbody>
+      {loading ? (
+        <Loader></Loader>
+      ) : (
+        <tbody {...getTableBodyProps()}>
+          {rows.map((row, i) => {
+            prepareRow(row);
+            return (
+              <tr
+                {...row.getRowProps()}
+                onClick={() => (redirect ? redirect(row.original) : null)}
+              >
+                {row.cells.map(cell => {
+                  return (
+                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                  );
+                })}
+              </tr>
+            );
+          })}
+        </tbody>
+      )}
     </TableS>
   );
 }

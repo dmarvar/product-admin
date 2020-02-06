@@ -1,8 +1,8 @@
 import React from "react";
-import { useHttp } from "../../hooks/useHttp";
+import { useGetHttp } from "../../hooks/useHttp";
 
 const Order = () => {
-  const [products] = useHttp("/GetOrderDetail?orderId=1");
+  const [products] = useGetHttp("/GetOrderDetail?orderId=1");
   return (
     <div>
       <h2>Order Module</h2>

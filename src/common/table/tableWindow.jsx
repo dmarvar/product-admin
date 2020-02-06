@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallBack } from "react";
+import React from "react";
 import { TableW, Busqueda, BusquedaWrapper } from "./tableStyles";
 import {
   useTable,
@@ -9,6 +9,7 @@ import {
 import { FixedSizeList } from "react-window";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSortDown, faSortUp } from "@fortawesome/free-solid-svg-icons";
+import Loader from "../../login/loader";
 
 // Define a default UI for filtering
 function GlobalFilter({
@@ -42,7 +43,13 @@ function GlobalFilter({
   );
 }
 
-function Table({ columns = [], data = [], filter = null, redirect = null }) {
+function Table({
+  columns = [],
+  data = [],
+  filter = null,
+  redirect = null,
+  loading = false
+}) {
   const {
     getTableProps,
     getTableBodyProps,
@@ -137,16 +144,20 @@ function Table({ columns = [], data = [], filter = null, redirect = null }) {
           </tr>
         ))}
       </thead>
-      <tbody {...getTableBodyProps()}>
-        <FixedSizeList
-          height={1500}
-          itemCount={rows.length}
-          itemSize={130}
-          width={"100%"}
-        >
-          {RenderRow}
-        </FixedSizeList>
-      </tbody>
+      {loading ? (
+        <Loader></Loader>
+      ) : (
+        <tbody {...getTableBodyProps()}>
+          <FixedSizeList
+            height={1500}
+            itemCount={rows.length}
+            itemSize={130}
+            width={"100%"}
+          >
+            {RenderRow}
+          </FixedSizeList>
+        </tbody>
+      )}
     </TableW>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Nav from "../common/navBar";
 import styled from "styled-components";
 import { Switch, Route } from "react-router-dom";
@@ -8,7 +8,7 @@ import Accounts from "./accounts";
 import Product from "./product";
 import Orders from "./orders";
 import Order from "./order";
-import { useHttp } from "../hooks/useHttp";
+import { useGetHttp } from "../hooks/useHttp";
 // REDUX
 import { connect } from "react-redux";
 import { setProductList } from "../services/actions";
@@ -23,9 +23,7 @@ const Wrapper = styled.main`
   }
 `;
 
-const Intranet = ({ saveProducts, saveOrders }) => {
-  const [products] = useHttp("/GetProducts?ownerid=ALGOMERKAR");
-  saveProducts(products);
+const Intranet = () => {
   return (
     <div>
       <Nav />

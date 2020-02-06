@@ -1,46 +1,54 @@
 import React, { useState } from "react";
 import ProductMainForm from "./productMainForm";
-import { useHttp } from "../../hooks/useHttp";
+import { useGetHttp, usePostHttp } from "../../hooks/useHttp";
 import { useImageUpload } from "../../hooks/useImageUpload";
 import ImageUpload from "../../common/imageUpload";
 import ProductPricesForm from "./productPricesForm";
-
-import { connect } from "react-redux";
 import Box from "../../common/box";
-import Button from "../../common/button";
-import { updateProducts } from "../../services/actions";
-import { Fsection, Section, Form, Wrapper } from "./styles";
+import { Wrapper, ImageContainer } from "./styles";
 
 const Product = ({ match }) => {
   const { id } = match.params;
-  const [imgFile, setImgFile] = useState();
-  const [product] = useHttp(`GetProductById?productid=${id}`);
-  const [getImageUrl] = useImageUpload("/merkar/products/");
-  const changeListener = file => {
-    setImgFile(file);
-    console.log("Esto es lo mio");
+  const [storesByProduct] = useGetHttp(
+    `GetStoresByProduct?productid=${id}&ownerid=ALGOMERKAR`
+  );
+  const [product] = useGetHttp(`GetProductById?productid=${id}`);
+  const [postProduct] = usePostHttp("UpdateProduct");
+  const [newImgFile, setNewImgFile] = useState();
+  const [getImageUrl] = useImageUpload("/ALGOMERKAR/products/");
+  const imageChange = file => {
+    setNewImgFile(file);
   };
-  const submitMainForm = values => {
-    // Subir imagen -> Recuperar Link de la Imagen -> Subir a servidor json
-    /*
-      1. Minimizar la imagen
-      2. Enviar la imagen al servidor de firebase y esperar respuesta con url de la imagen
-      3. Enviar objeto Json completo
-    */
+  const submitMainForm = async values => {
+    if (newImgFile) {
+      // Se sube la imagen a firebase y se captura la url
+      const url = await getImageUrl(newImgFile);
+      values["imageURL"] = url;
+    }
+    const jsonProduct = JSON.stringify(values);
+    postProduct(jsonProduct).then(res => {
+      console.log(res);
+    });
   };
   return (
     <Wrapper>
       <Box>
-        <ImageUpload
-          initialImg={"https://www.tibs.org.tw/images/default.jpg"}
-          changeListener={changeListener}
-        ></ImageUpload>
-      </Box>
-      <Box>
+        <ImageContainer>
+          <ImageUpload
+            initialImg={product[0] && product[0]["imageURL"]}
+            changeListener={imageChange}
+          ></ImageUpload>
+        </ImageContainer>
         <ProductMainForm
           submit={submitMainForm}
           initialValues={product[0]}
         ></ProductMainForm>
+      </Box>
+      <Box>
+        <h2>Precios y puntos de venta</h2>
+        <ProductPricesForm initialValues={storesByProduct}>
+          <table></table>
+        </ProductPricesForm>
       </Box>
     </Wrapper>
   );
@@ -191,14 +199,7 @@ export default Product;
 //                   }
 //                   alt=""
 //                 />
-//                 <Button text="Change Image" action={this.upload} />
-//                 <input
-//                   type="file"
-//                   name="img"
-//                   ref="fileUploader"
-//                   style={{ display: "none" }}
-//                   onChange={this.changeValue}
-//                 />
+
 //               </Fsection>
 //             </Section>
 //           </Form>

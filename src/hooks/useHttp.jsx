@@ -1,15 +1,27 @@
 import { useState, useEffect } from "react";
 import http from "../services/http";
 
-export const useHttp = url => {
+export const useGetHttp = url => {
   const [data, setData] = useState([]);
+  const [loading, setloading] = useState(false);
   useEffect(() => {
     async function queries() {
-      let resData = await http.post(url);
-      setData(resData);
+      setloading(true);
+      http.post(url).then(res => {
+        setloading(false);
+        setData(res);
+      });
     }
     // Execute the created function directly
     queries();
   }, [url]);
-  return [data];
+  return [data, loading];
+};
+
+export const usePostHttp = url => {
+  const postData = async data => {
+    const response = await http.post(url, data);
+    return response;
+  };
+  return [postData];
 };

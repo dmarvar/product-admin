@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import firebase from "../utils/firebase";
 
 const storage = firebase.storage();

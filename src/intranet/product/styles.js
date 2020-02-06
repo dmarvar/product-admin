@@ -8,6 +8,10 @@ export const Wrapper = styled.section`
   }
 `;
 
+export const ImageContainer = styled.div`
+  overflow: hidden;
+`;
+
 export const Form = styled.form`
   display: flex;
   justify-content: center;

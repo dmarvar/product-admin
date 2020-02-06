@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 const Wrapper = styled.div`
-  border: 16px solid ${p => p.theme.bgColorDark};
+  border: 16px solid ${p => p.theme.bgColorLight};
   border-radius: 50%;
   border-top: 16px solid ${p => p.theme.cOrangeDark};
   width: 100%;

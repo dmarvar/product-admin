@@ -1,33 +1,75 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import styled from "styled-components";
+
+const Wrapper = styled.div`
+  margin: 20px auto;
+  width: 250px;
+  position: relative;
+  border: 2px dashed ${p => p.theme.cOrangeDark};
+  padding: 5px;
+  img {
+    width: 100%;
+    cursor: pointer;
+  }
+  button {
+    position: absolute;
+    display: none;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    width: 100;
+    height: 50px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    color: white;
+  }
+  &:hover {
+    background: ${p => p.theme.bgColorLight};
+    border-color: ${p => p.theme.cOrange};
+    button {
+      display: block;
+      outline: none;
+    }
+  }
+`;
+
+const Button = styled.button``;
 
 const defaultListener = () => {};
 
-const ImageUpload = ({ initialImg = "", changeListener = defaultListener }) => {
-  const [image, setImage] = useState(initialImg);
+const ImageUpload = ({ initialImg, changeListener = defaultListener }) => {
+  const [image, setImage] = useState(null);
+  const searchFile = useRef(null);
+  const defaultImg =
+    "https://d167y3o4ydtmfg.cloudfront.net/240/studio/assets/v1554362197556_613007740/Default-coming-soon.jpg";
   const handleChange = async ({ target }) => {
-    // const [imageUrl] = useImageUpload();
     const [file] = target.files;
-    console.log(file);
     setImage(URL.createObjectURL(file));
+    // Comprimir archivo de imagen
     changeListener(file);
-    // storage
-    //   .ref(`/merkar/products/${file.name}`)
-    //   .put(file)
-    //   .then(snapshot => {
-    //     console.log(snapshot.ref.getDownloadURL()[i]);
-    //   });
-    // changeListener(file);
+  };
+  const upload = e => {
+    e.preventDefault();
+    searchFile.current.click();
   };
   return (
-    <div>
-      <img src={image} alt="Product Image" />
+    <Wrapper>
+      <img
+        src={image || initialImg || defaultImg}
+        alt="Product Image"
+        onClick={upload}
+      />
+      <Button onClick={upload}> Cambiar Imagen</Button>
       <input
         type="file"
         name="img"
-        refs="fileUploader"
+        ref={searchFile}
+        style={{ display: "none" }}
         onChange={handleChange}
       />
-    </div>
+    </Wrapper>
   );
 };
 export default ImageUpload;

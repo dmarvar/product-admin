@@ -6,10 +6,10 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  margin-top: 100px;
   div.box {
-    width: 130px;
-    height: 130px;
+    width: 120px;
+    height: 120px;
   }
 `;
 
