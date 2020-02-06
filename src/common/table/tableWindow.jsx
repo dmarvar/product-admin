@@ -1,11 +1,10 @@
-import React, { useRef, useState } from "react";
-import { TableS, Busqueda, BusquedaWrapper } from "./tableStyles";
+import React, { useRef, useState, useCallBack } from "react";
+import { TableW, Busqueda, BusquedaWrapper } from "./tableStyles";
 import {
   useTable,
   useSortBy,
   useGlobalFilter,
-  useBlockLayout,
-  useCallBack
+  useBlockLayout
 } from "react-table";
 import { FixedSizeList } from "react-window";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,12 +17,16 @@ function GlobalFilter({
   setGlobalFilter,
   flatColumns
 }) {
-  const [inputBusqueda, setInputBusqueda] = useState("");
   const count = preGlobalFilteredRows.length;
-  const inputTextRef = useRef();
   return (
     <tr>
-      <th colSpan={flatColumns.length}>
+      <th
+        colSpan={flatColumns.length}
+        style={{
+          textAlign: "left",
+          width: "100%"
+        }}
+      >
         <BusquedaWrapper>
           <span>Buscar: </span>
           <Busqueda
@@ -33,29 +36,11 @@ function GlobalFilter({
             }}
             placeholder={`${count} registros...`}
           />
-          {/* <Busqueda
-            value={inputBusqueda}
-            onChange={e => {
-              setInputBusqueda(e.target.value);
-            }}
-            onKeyDown={e =>
-              e.key === "Enter"
-                ? setGlobalFilter(inputBusqueda || undefined)
-                : ""
-            } */}
-          {/* /> */}
-          {/* <button onClick={() => setGlobalFilter(inputBusqueda || undefined)}>
-            Consultar
-          </button> */}
         </BusquedaWrapper>
       </th>
     </tr>
   );
 }
-
-const diplayFilter = () => {
-  return;
-};
 
 function Table({ columns = [], data = [], filter = null, redirect = null }) {
   const {
@@ -75,11 +60,40 @@ function Table({ columns = [], data = [], filter = null, redirect = null }) {
       data
     },
     useGlobalFilter,
-    // useBlockLayout,
+    useBlockLayout,
     useSortBy
   );
+
+  const RenderRow = React.useCallback(
+    ({ index, style }) => {
+      const row = rows[index];
+      prepareRow(row);
+      return (
+        <tr
+          {...row.getRowProps({
+            style
+          })}
+          // style={{ height: "auto" }}
+          onClick={() => (redirect ? redirect(row.original) : null)}
+        >
+          {row.cells.map(cell => {
+            return (
+              <td
+                {...cell.getCellProps()}
+                style={{ width: "auto", height: "100%", flex: "1" }}
+              >
+                {cell.render("Cell")}
+              </td>
+            );
+          })}
+        </tr>
+      );
+    },
+    [prepareRow, rows]
+  );
+
   return (
-    <TableS {...getTableProps()}>
+    <TableW {...getTableProps()}>
       <thead>
         {!filter && (
           <GlobalFilter
@@ -90,7 +104,10 @@ function Table({ columns = [], data = [], filter = null, redirect = null }) {
           />
         )}
         {headerGroups.map((headerGroup, i) => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
+          <tr
+            {...headerGroup.getHeaderGroupProps()}
+            style={{ display: "flex", width: "100%" }}
+          >
             {headerGroup.headers.map(column => (
               <th
                 {...column.getHeaderProps(column.getSortByToggleProps())}
@@ -101,6 +118,7 @@ function Table({ columns = [], data = [], filter = null, redirect = null }) {
                       : "isSortedDesc"
                     : ""
                 }
+                style={{ flex: "1" }}
               >
                 {column.render("Header")}
                 <span>
@@ -120,21 +138,16 @@ function Table({ columns = [], data = [], filter = null, redirect = null }) {
         ))}
       </thead>
       <tbody {...getTableBodyProps()}>
-        {rows.map((row, i) => {
-          prepareRow(row);
-          return (
-            <tr
-              {...row.getRowProps()}
-              onClick={() => (redirect ? redirect(row.original) : null)}
-            >
-              {row.cells.map(cell => {
-                return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
-              })}
-            </tr>
-          );
-        })}
+        <FixedSizeList
+          height={1500}
+          itemCount={rows.length}
+          itemSize={130}
+          width={"100%"}
+        >
+          {RenderRow}
+        </FixedSizeList>
       </tbody>
-    </TableS>
+    </TableW>
   );
 }
 

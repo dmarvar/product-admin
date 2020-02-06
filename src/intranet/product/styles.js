@@ -1,5 +1,13 @@
 import styled from "styled-components";
 
+export const Wrapper = styled.section`
+  /* background: ${p => p.theme.cOrange}; */
+  display: flex;
+  & > div {
+    flex: 1;
+  }
+`;
+
 export const Form = styled.form`
   display: flex;
   justify-content: center;

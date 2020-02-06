@@ -36,8 +36,8 @@ const Intranet = ({ saveProducts, saveOrders }) => {
           </Route>
           <Route path="/products/:id" component={Product} />
           <Route path="/products" component={Products} />
-          <Route path="/orders" component={Orders} />
           <Route path="/orders/:id" component={Order} />
+          <Route path="/orders" component={Orders} />
           <Route path="/">
             <DashBoard />
           </Route>

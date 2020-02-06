@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const InputTextStyles = styled.section`
-  padding-bottom: 10px;
+  padding-bottom: 5px;
   label {
     display: block;
     color: white;
@@ -13,7 +13,7 @@ export const InputTextStyles = styled.section`
     color: white;
     outline: none;
     width: calc(100% - 40px);
-    font-size: 12px;
+    font-size: 10px;
     .pac-selected,
     .pac-item,
     .pac-container {
@@ -28,7 +28,7 @@ export const InputTextStyles = styled.section`
     margin: 20px auto 30px;
   }
   div {
-    min-height: 22px;
+    min-height: 20px;
     display: block;
     color: #d24d57;
     font-size: 14px;

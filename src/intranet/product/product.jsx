@@ -1,20 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import ProductMainForm from "./productMainForm";
 import { useHttp } from "../../hooks/useHttp";
+import { useImageUpload } from "../../hooks/useImageUpload";
+import ImageUpload from "../../common/imageUpload";
 import ProductPricesForm from "./productPricesForm";
 
 import { connect } from "react-redux";
 import Box from "../../common/box";
 import Button from "../../common/button";
 import { updateProducts } from "../../services/actions";
-import { Fsection, Section, Form } from "./styles";
+import { Fsection, Section, Form, Wrapper } from "./styles";
 
-const Product = p => {
-  console.log("Esta informacion llega a product", p);
-  const productId = "1";
-  const [product] = useHttp(`GetProductById?productid=${productId}`);
-  console.log(product);
+const Product = ({ match }) => {
+  const { id } = match.params;
+  const [imgFile, setImgFile] = useState();
+  const [product] = useHttp(`GetProductById?productid=${id}`);
+  const [getImageUrl] = useImageUpload("/merkar/products/");
+  const changeListener = file => {
+    setImgFile(file);
+    console.log("Esto es lo mio");
+  };
   const submitMainForm = values => {
+    // Subir imagen -> Recuperar Link de la Imagen -> Subir a servidor json
     /*
       1. Minimizar la imagen
       2. Enviar la imagen al servidor de firebase y esperar respuesta con url de la imagen
@@ -22,12 +29,20 @@ const Product = p => {
     */
   };
   return (
-    <div>
-      <ProductMainForm
-        submit={submitMainForm}
-        initialValues={product[0]}
-      ></ProductMainForm>
-    </div>
+    <Wrapper>
+      <Box>
+        <ImageUpload
+          initialImg={"https://www.tibs.org.tw/images/default.jpg"}
+          changeListener={changeListener}
+        ></ImageUpload>
+      </Box>
+      <Box>
+        <ProductMainForm
+          submit={submitMainForm}
+          initialValues={product[0]}
+        ></ProductMainForm>
+      </Box>
+    </Wrapper>
   );
 };
 

@@ -4,6 +4,7 @@ import Table from "../../common/table";
 import Box from "../../common/box";
 import http from "../../services/http";
 import { OrdersTable } from "../../utils/tablesHeaders";
+import { useHttp } from "../../hooks/useHttp";
 
 const orderStatus = {
   pending: "Esta en la canastilla del cliente",
@@ -42,8 +43,9 @@ const resToTable = arr => {
   });
 };
 
-const Orders = () => {
+const Orders = ({ history }) => {
   const [orderList, setOrderList] = useState([]);
+  useHttp("");
   useEffect(() => {
     async function queries() {
       let orders = await http.post(
@@ -56,11 +58,20 @@ const Orders = () => {
     // Execute the created function directly
     queries();
   }, []);
+  const redirect = ({ id }) => {
+    // console.log(JSON.stringify(item));
+    // const { reference } = item;
+    history.push(`/orders/${id}`);
+  };
   return (
     <div>
       <h2>Ordenes</h2>
       <Box title="Todas las ordenes">
-        <Table columns={OrdersTable} data={orderList}></Table>
+        <Table
+          columns={OrdersTable}
+          data={orderList}
+          redirect={redirect}
+        ></Table>
       </Box>
     </div>
   );
