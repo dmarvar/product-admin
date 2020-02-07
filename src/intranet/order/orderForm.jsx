@@ -5,7 +5,8 @@ import { FormOrder } from "./styles";
 
 const OrderForm = ({ orderInCourse }) => {
   const [status] = useGetHttp("/GetOrderStatusList");
-  console.log(status);
+  console.log("Esttus de la order", status);
+  console.log(orderInCourse);
   return (
     <FormOrder action="">
       <h3>Cambiar estado</h3>

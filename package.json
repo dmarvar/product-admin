@@ -3,6 +3,10 @@
   "homepage": "http://dmarvar.github.io/product-admin",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "yarn": "1.16.0",
+    "node": "12.5.0"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.26",
     "@fortawesome/free-solid-svg-icons": "^5.12.0",

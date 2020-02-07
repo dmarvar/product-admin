@@ -12,13 +12,13 @@ import Loader from "./login/loader";
 import Intranet from "./intranet";
 import { AuthProvider, AuthContext } from "./services/auth";
 // REDUX
-import { connect } from "react-redux";
-import { setInitialData } from "./services/actions";
+// import { connect } from "react-redux";
+// import { setInitialData } from "./services/actions";
 //STYLES
 import "./App.css";
-import axios from "axios";
+// import axios from "axios";
 // import { id } from "postcss-selector-parser";
-axios.defaults.baseURL = "https://wecommerceapi.azurewebsites.net";
+// axios.defaults.baseURL = "https://wecommerceapi.azurewebsites.net";
 
 const Wrapper = styled.main`
   min-height: 100vh;
@@ -67,16 +67,5 @@ const App = () => {
     </ThemeProvider>
   );
 };
-const mapStateToProps = (state, props) => {
-  return {};
-};
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onLoadData: data => {
-      dispatch(setInitialData(data));
-    }
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;
