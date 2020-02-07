@@ -94,12 +94,12 @@ export default function NavBar() {
           </span>
           Ordenes
         </Link>
-        <Link to="/accounts">
+        {/* <Link to="/accounts">
           <span>
             <FontAwesomeIcon icon={faUserAlt} />
           </span>
           Cuentas
-        </Link>
+        </Link> */}
       </NavItems>
       <Button text="Salir" action={Signout} />
     </Nav>

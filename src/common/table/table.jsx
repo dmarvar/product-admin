@@ -88,7 +88,7 @@ function Table({
   return (
     <TableS {...getTableProps()}>
       <thead>
-        {!filter && (
+        {filter && (
           <GlobalFilter
             preGlobalFilteredRows={preGlobalFilteredRows}
             globalFilter={state.globalFilter}

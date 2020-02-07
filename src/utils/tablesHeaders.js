@@ -38,6 +38,28 @@ export const OrdersTable = [
     accessor: "orderStatus"
   }
 ];
+export const OrdersDetailTable = [
+  {
+    Header: "Referencia",
+    accessor: "reference"
+  },
+  {
+    Header: "Img",
+    accessor: "imageURL"
+  },
+  {
+    Header: "Producto",
+    accessor: "productName"
+  },
+  {
+    Header: "Precio x Producto",
+    accessor: "price"
+  },
+  {
+    Header: "Cantidad",
+    accessor: "quantity"
+  }
+];
 
 export const ProductsTable = [
   {

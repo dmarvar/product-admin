@@ -30,6 +30,7 @@ const Product = ({ match }) => {
       console.log(res);
     });
   };
+  console.log(storesByProduct);
   return (
     <Wrapper>
       <Box>
@@ -45,10 +46,10 @@ const Product = ({ match }) => {
         ></ProductMainForm>
       </Box>
       <Box>
-        <h2>Precios y puntos de venta</h2>
-        <ProductPricesForm initialValues={storesByProduct}>
-          <table></table>
-        </ProductPricesForm>
+        <h2 style={{ textAlign: "right", marginRight: "50px" }}>
+          Precios y puntos de venta
+        </h2>
+        <ProductPricesForm initialValues={storesByProduct}></ProductPricesForm>
       </Box>
     </Wrapper>
   );

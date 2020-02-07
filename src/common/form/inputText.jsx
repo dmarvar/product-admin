@@ -10,13 +10,7 @@ import { InputTextStyles } from "./styles";
     id,
 */
 
-const InputText = ({
-  label = "Default Label",
-  name,
-  errors = {},
-  touched = {},
-  ...rest
-}) => {
+const InputText = ({ label, name, errors = {}, touched = {}, ...rest }) => {
   return (
     <InputTextStyles>
       <label htmlFor={name}>{label}</label>

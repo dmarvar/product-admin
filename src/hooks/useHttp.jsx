@@ -8,8 +8,8 @@ export const useGetHttp = url => {
     async function queries() {
       setloading(true);
       http.post(url).then(res => {
-        setloading(false);
         setData(res);
+        setloading(false);
       });
     }
     // Execute the created function directly

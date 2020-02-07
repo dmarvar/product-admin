@@ -8,6 +8,12 @@ export const Wrapper = styled.section`
   }
 `;
 
+export const ProductDetailForm = styled.form`
+  h4 {
+    color: orange;
+  }
+`;
+
 export const ImageContainer = styled.div`
   overflow: hidden;
 `;

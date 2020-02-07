@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import Table from "../../common/table";
-
+import Loader from "../../login/loader";
 import Box from "../../common/box";
 import http from "../../services/http";
 import { OrdersTable } from "../../utils/tablesHeaders";
@@ -44,21 +44,8 @@ const resToTable = arr => {
 };
 
 const Orders = ({ history }) => {
-  // const [orderList, setOrderList] = useState([]);
   const [orders, loadingOrders] = useGetHttp("GetOrders?ownerid=algomerkar");
   const memoizedOrders = useMemo(() => resToTable(orders), [orders]);
-  // useEffect(() => {
-  //   async function queries() {
-  //     let orders = await http.post(
-  //       "https://wecommerceapiaz.azurewebsites.net/api/GetOrders?ownerid=algomerkar"
-  //     );
-  //     console.log(orders);
-
-  //     setOrderList(orders);
-  //   }
-  //   // Execute the created function directly
-  //   queries();
-  // }, []);
   const redirect = ({ id }) => {
     // console.log(JSON.stringify(item));
     // const { reference } = item;
@@ -68,12 +55,16 @@ const Orders = ({ history }) => {
     <div>
       <h2>Ordenes</h2>
       <Box title="Todas las ordenes">
-        <Table
-          columns={OrdersTable}
-          data={memoizedOrders}
-          redirect={redirect}
-          loading={loadingOrders}
-        ></Table>
+        {loadingOrders ? (
+          <Loader></Loader>
+        ) : (
+          <Table
+            columns={OrdersTable}
+            data={memoizedOrders}
+            redirect={redirect}
+            loading={loadingOrders}
+          ></Table>
+        )}
       </Box>
     </div>
   );

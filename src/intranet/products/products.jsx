@@ -59,7 +59,7 @@ const Products = ({ history }) => {
             <Table
               columns={CategoriesTable}
               data={categories}
-              filter={true}
+              filter={false}
               loading={catLoad}
             ></Table>
             {/* <button onClick={toogleModal}>Agregar</button> */}

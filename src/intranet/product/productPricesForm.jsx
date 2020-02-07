@@ -2,6 +2,7 @@ import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { InputText, Selector, Button, RadioGroup } from "../../common/form";
+import { ProductDetailForm } from "./styles";
 
 const initialValuesMain = [
   {
@@ -33,12 +34,14 @@ const ProductPricesForm = ({ submit, initialValues = [] }) => {
     handleBlur
   } = formik;
   return (
-    <form onSubmit={handleSubmit}>
+    <ProductDetailForm onSubmit={handleSubmit}>
       {initialValues.map((store, i) => {
         if (!values[i]) return;
         return (
           <section>
-            <h4>{store.storeId} - Nombre de la tienda</h4>
+            <h4>
+              {store.storeId} - {store.storeName}
+            </h4>
             <div>
               <InputText
                 id="price"
@@ -82,7 +85,7 @@ const ProductPricesForm = ({ submit, initialValues = [] }) => {
         );
       })}
       <Button type="submit">Bumit</Button>
-    </form>
+    </ProductDetailForm>
   );
 };
 

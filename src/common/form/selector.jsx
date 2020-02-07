@@ -13,7 +13,7 @@ const Selector = ({
     <InputTextStyles>
       <label htmlFor={name}>{label}</label>
       <select name={name} {...rest}>
-        <option value="" label="Select a color" />
+        <option value="" label="Select..." />
         {options.map(item => (
           <option value={item.id} label={item.name} key={item.id + item.name} />
         ))}
